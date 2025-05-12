@@ -1,4 +1,7 @@
+"""Стабильный генератор случайных чисел"""
+
 import math
+import sys
 
 from numba import float64, optional, uint32
 from numba.experimental import jitclass
@@ -14,6 +17,10 @@ spec = [
 
 @jitclass(spec)
 class LCG:
+    """
+    Класс для генерации равномерно распределённых случайных чисел
+    """
+
     def __init__(self, seed: int):
         self.state = seed
         self.a = 1103515245
@@ -61,6 +68,9 @@ class LCG:
 
 
 def main():
+    """
+    Пример использования
+    """
     seed = 42
     lcg = LCG(seed)
 
@@ -69,4 +79,4 @@ def main():
 
 
 if __name__ == "__main__":
-    exit(main())
+    sys.exit(main())

@@ -33,6 +33,9 @@ end
 Возвращает нормально распределённое случайное число с мат ожиданием mu и дисперсией sigma
 """
 function next_normal(rng::LCG; mu::Float64=0.0, sigma::Float64=1.0)::Float64
+    if sigma <= 0.0
+        throw(DomainError(sigma, "Дисперсия должна быть положительной"))
+    end
     if rng.next_gaussian !== nothing
         z = rng.next_gaussian
         rng.next_gaussian = nothing

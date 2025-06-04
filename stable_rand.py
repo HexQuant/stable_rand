@@ -15,13 +15,15 @@ spec = [
 ]
 
 
-@jitclass(spec)
+@jitclass(spec)  # type: ignore
 class LCG:
     """
     Класс для генерации равномерно распределённых случайных чисел
     """
 
-    def __init__(self, seed: int):
+    def __init__(self, seed: int) -> None:
+        if seed < 0:
+            raise ValueError("Семя должно быть положительным числом")
         self.state = seed
         self.a = 1103515245
         self.c = 12345
@@ -38,7 +40,7 @@ class LCG:
         self.state = (self.a * self.state + self.c) % self.m
         return self.state / self.m
 
-    def next_normal(self, mu=0.0, sigma=1.0) -> float:
+    def next_normal(self, mu: float = 0.0, sigma: float = 1.0) -> float:
         """
         Возвращает нормально распределённую случайное число
 
@@ -49,6 +51,9 @@ class LCG:
         Returns:
             float: _description_
         """
+        if sigma <= 0:
+            raise ValueError("Дисперсия должна быть положительным числом")
+
         if self.next_gaussian is not None:
             z = self.next_gaussian
             self.next_gaussian = None
@@ -67,7 +72,7 @@ class LCG:
         return mu + sigma * z0
 
 
-def main():
+def main() -> None:
     """
     Пример использования
     """
